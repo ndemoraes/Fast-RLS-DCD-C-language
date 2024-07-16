@@ -1,5 +1,5 @@
 //
-// Created by Naomi Nascimento on 3/31/24.
+// Created by Naomi J Sutcliffe de Moraes
 //
 
 #include "DCBF_RLSDCD.h"
@@ -13,7 +13,7 @@ void fDCD(double H, long B, long num_dcd_iterations, struct DCBF_Matrix *R_phi, 
 
     for (long k = 0; k < num_dcd_iterations; ++k)
     {
-        // p is the index corresponding to the maximum residual. I want to update the pth column of Rphi
+        // p is the index corresponding to the maximum residual. We want to update the pth column of Rphi
         long p = argmax(res, MATRIX_SIZE);  // a value from 0 to M-1
         long p_cb_position = julia_mod1( (R_phi->cb_head[0] + p), R_phi->diag_num_elements[0]);
 
@@ -52,7 +52,6 @@ void fRLSDCD(double *w, double *e, double*x, const double *s, double lambda, dou
 
         update_DCBF_matrix_w_backward_vector(R_phi, x, step + MATRIX_SIZE - 1, lambda);
 
-        // TO DO - check if indices are correct
         for (long element = 0; element < MATRIX_SIZE; ++element)
         {
             beta[element] = lambda * beta[element] + e[step] * get_backward_element(x, step + MATRIX_SIZE - 1, element);

@@ -1,4 +1,6 @@
-
+//
+// Created by Naomi Sutcliffe de Moraes
+//
 #include "Standard_operations.h"
 
 // create regular dmtrx for 5x5 test
@@ -149,7 +151,6 @@ void outer_product(const double * column_vector, const double *row_vector, REGUL
     {
         for (long col = 0; col < MATRIX_SIZE; ++col)
             (*matrix)[row][col] = column_vector[row] * row_vector[col];
-            //matrix[row * MATRIX_SIZE + col] = column_vector[row] * row_vector[col];
     }
 }
 
@@ -212,7 +213,7 @@ double sign(double value)
 // *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
 void update_matrix_w_backward_vector(REGULAR_MATRIX *mtrx, const double *vtr, long start_slice, const double scalar)
 {
-    // mtrx[row][col]
+    // format is mtrx[row][col]
 
     // store first column (index 0) for later use
     double first_col[MATRIX_SIZE];
@@ -229,7 +230,6 @@ void update_matrix_w_backward_vector(REGULAR_MATRIX *mtrx, const double *vtr, lo
             // shift elements down 1 row and one col to the right
             (*mtrx)[row+1][col+1] = (*mtrx)[row][col];
         }
-//        (*mtrx)[0][row+1] = (*mtrx)[row+1][0];
     }
     double vtr_zero = get_backward_element(vtr, start_slice, 0);
     // define first column and row
@@ -246,7 +246,7 @@ void update_matrix_w_backward_vector(REGULAR_MATRIX *mtrx, const double *vtr, lo
 
 void update_matrix(REGULAR_MATRIX *mtrx, const double *vtr, const double scalar)
 {
-    // mtrx[row][col]
+    //format is  mtrx[row][col]
 
     // store first column (index 0) for later use
     double first_col[MATRIX_SIZE];
@@ -263,7 +263,7 @@ void update_matrix(REGULAR_MATRIX *mtrx, const double *vtr, const double scalar)
         // shift elements down 1 row and one col to the right
             (*mtrx)[row+1][col+1] = (*mtrx)[row][col];
         }
-//        (*mtrx)[0][row+1] = (*mtrx)[row+1][0];
+
     }
     // define first column and row
     for (long row = MATRIX_SIZE - 2; row >= 0; --row)
@@ -278,7 +278,7 @@ void update_matrix(REGULAR_MATRIX *mtrx, const double *vtr, const double scalar)
 
 void update_vector(double *vtr, const REGULAR_MATRIX *mtrx, const double scalar, const long col_num)
 {
-    // mtrx[row][col]
+    // format is mtrx[row][col]
     for (long row = 0; row < MATRIX_SIZE; ++row)
     {
         vtr[row] = vtr[row] - scalar * (*mtrx)[row][col_num];
@@ -290,9 +290,7 @@ double gaussian_rand(const gsl_rng *r, double sigma)
     // generate gaussian random number with mean zero and standard deviation sigma
     // r is a pointer to the random number generator
     // calling routine must set the seed with srand()
-//    double num1 = ((double)(rand()))/((double)RAND_MAX);
-//    double num2 = ((double)(rand()))/((double)RAND_MAX);
-//    double rand_num = sqrt(-2.0 * log(num1)) * cos(2.0 * M_PI * num2); // Box-Muller transform
+
     double rand_num = gsl_ran_gaussian(r, sigma);
     return rand_num;
 }

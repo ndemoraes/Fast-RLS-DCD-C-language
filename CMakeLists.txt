@@ -10,8 +10,6 @@ add_executable(FastDCD main.c
         matrix_operations/DCBF_operations.c
         echo_canceling.c
         echo_canceling.h
-        operations_unit_tests.c
-        operations_unit_tests.h
         standard_RLSDCD/standard_RLSDCD.c
         standard_RLSDCD/standard_RLSDCD.h
         DCBF_RLSDCD/DCBF_RLSDCD.c

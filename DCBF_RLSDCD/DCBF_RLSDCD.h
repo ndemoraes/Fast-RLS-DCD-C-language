@@ -1,5 +1,5 @@
 //
-// Created by Naomi Nascimento on 3/31/24.
+// Created by Naomi J Sutcliffe de Moraes
 //
 
 #ifndef FASTDCD_DCBF_RLSDCD_H

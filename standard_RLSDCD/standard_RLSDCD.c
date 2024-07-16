@@ -1,5 +1,5 @@
 //
-// Created by Naomi Nascimento on 3/28/24.
+// Created by Naomi J S de Moraes
 //
 
 #include "standard_RLSDCD.h"
@@ -38,14 +38,13 @@ void RLSDCD(double *w, double *e, double*x, const double *s, double lambda, doub
 
     for (long step = 0; step < num_time_steps; ++step)
     {
-        // start and end of slice are inclusive in Julia
+        // note: start and end of slice are inclusive in Julia, so must take this into account
         long start_slice = step + MATRIX_SIZE - 1;
         double y = backward_dot_product(x, w, start_slice);
         e[step] = s[step] - y;
 
         update_matrix_w_backward_vector(R_phi, x, step + MATRIX_SIZE - 1, lambda);
 
-        // TO DO - check if indices are correct
         for (long element = 0; element < MATRIX_SIZE; ++element)
         {
             beta[element] = lambda * beta[element] + e[step] * get_backward_element(x,step + MATRIX_SIZE - 1, element);

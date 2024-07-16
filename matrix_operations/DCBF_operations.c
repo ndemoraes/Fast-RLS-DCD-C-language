@@ -1,5 +1,8 @@
-
+//
+// Created by Naomi Sutcliffe de Moraes
+//
 #include "DCBF_operations.h"
+
 long julia_mod1(long dividend, long divisor) {
     long result = (dividend % divisor);
     if (result < 0) // If the result is negative, add divisor to get into the range [0, divisor - 1]
@@ -20,7 +23,7 @@ struct DCBF_Matrix *initialize_DCBF_Matrix(double delta)
     // Allocate memory for the structure
     struct DCBF_Matrix *initialized = (struct DCBF_Matrix *)malloc(sizeof(struct DCBF_Matrix));
 
-    // Initialize first diagonal to all ones, rest of dmtrx to zeroes
+    // Initialize longest diagonal to all ones, rest of dmtrx to zeroes
     for (long element = 0; element < MATRIX_SIZE; ++element)  // first diagonal
     {
         initialized->dmtrx[element] = 1.0 * delta;
@@ -42,7 +45,7 @@ struct DCBF_Matrix *initialize_DCBF_Matrix(double delta)
     {
         // initialize first diagonal to have MATRIX_SIZE elements
         // the second diagonal will have MATRIX_SIZE - 1 elements
-        // and so on until  the last diagonal has just 1 element
+        // and so on until the last diagonal has just 1 element
         initialized->diag_num_elements[diagonal] = diagonal_size;
 
         // Initialize the indices to the head elements of the circular buffer for each diagonal, 0..MATRIX_SIZE - 1
@@ -56,7 +59,7 @@ struct DCBF_Matrix *initialize_DCBF_Matrix(double delta)
 
     }
     return initialized;
-    // don't forget to free the memory
+    // don't forget to free the memory in the calling program
 }
 
 
@@ -149,14 +152,13 @@ void print_vector(double vtr[])
 // output: updated DCBF matrix
 // ****************************************************************
 
-// get_backward_element(vtr, start_slice, element)
+
 void update_DCBF_matrix_w_backward_vector(struct DCBF_Matrix *mtrx, const double *vtr, long start_slice, const double scalar)
 {
     for(long i = 0; i < MATRIX_SIZE; i++)  // i is diagonal
     {
         // value of element at head of circular buffer before updating
         double old_head = *pointer_to_head(i, mtrx);
-        //printf("old_head = %lf\n", old_head);
 
 
         // shift diagonal up by moving pointer within diagonal (mod is to make it wrap around)
@@ -180,7 +182,6 @@ void update_DCBF_Matrix(struct DCBF_Matrix *mtrx, const double *vtr, const doubl
     {
         // value of element at head of circular buffer before updating
         double old_head = *pointer_to_head(i, mtrx);
-        //printf("old_head = %lf\n", old_head);
 
 
         // shift diagonal up by moving pointer within diagonal (mod is to make it wrap around)

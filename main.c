@@ -1,34 +1,17 @@
+//
+// Created by Naomi Sutcliffe de Moraes
+//
 #include <stdio.h>
-//#include <stdlib.h>
-//#include "matrix_operations/Standard_operations.h"
-//#include "matrix_operations/DCBF_operations.h"
-#include "operations_unit_tests.h"
 #include "echo_canceling.h"
 
 
 int main() {
-    printf("Start of program!\n");
-    // create 5x5 dmtrx for test
-/*    REGULAR_MATRIX *regular_matrix_pt = initialize_5x5();
-    printf("\n printing 5x5 regular dmtrx for 5x5 test\n");
-    print_regular_matrix(regular_matrix_pt);
-    test_DCBF_matrix(regular_matrix_pt);
 
-    //test_initialization();
-    test_matrix(regular_matrix_pt);
+    // INSTRUCTIONS
+    // The matrix size is hard-coded in the file standard_operations.h
+    // Set the value there first, before running the test(s)
 
-    // free up variables
-    free(regular_matrix_pt);
-
-    // create random vector
-    double *vect = gaussian_rand_vector(MATRIX_SIZE);
-    printf("\n random vector test \n");
-    print_array(vect, MATRIX_SIZE);
-    free(vect);*/
-
-    //test_DCBF();
-    // test_get_backward_element();
-
+    printf("Tests running\n");
 
     // RANDOM NUMBER GENERATOR PREPARATION
     const gsl_rng_type * T;
@@ -42,10 +25,17 @@ int main() {
     gsl_rng_set(r, 123654);
 
     // END OF RANDOM NUMBER GENERATOR PREPARATION
-
+    // to test the RLS algorithm with 40,000 time steps, uncomment the following line
     //test_RLS(40000, r);
+
+    // to test the fast RLS-DCD algorithm (using the DCBF) with 40,000 time steps, uncomment the following line
     //test_fRLSDCD(40000, r);
+
+    // to test the RLS-DCD algorithms (using the standard matrix format) with 40,000 time steps, uncomment the following line
     //test_RLSDCD(40000, r);
+
+    // to test all the algorithms with the same parameters
+    // and print mean and minimum times, uncomment the following line
     test_DCBF(r);
 
 

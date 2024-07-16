@@ -29,7 +29,6 @@ void RLS(double *w, double *e,  double *x, const double *s, long M, double lambd
     // this function modifies two vectors, w, e
     // initialize P to delta * Identity matrix
     REGULAR_MATRIX *out_product = malloc(sizeof(REGULAR_MATRIX));
-    //REGULAR_MATRIX  out_product;
     zero_regular_matrix(out_product);
 
 
@@ -67,8 +66,7 @@ void RLS(double *w, double *e,  double *x, const double *s, long M, double lambd
         }
 
         outer_product(g, g, out_product);
-        //printf(" \n outer product\n");
-        //print_regular_matrix(out_product);
+
 
 
         for (long row = 0; row < MATRIX_SIZE; ++row)
@@ -103,7 +101,6 @@ void test_DCBF(const gsl_rng *r)
     long num_dcd_iterations;
 
     // create arrays to store running times for different simulations
-    // array[row][col] = array[different M values][number of simulations run, average of them is taken later
     double *TRLS = malloc(sizeof (double) * num_simulations );
     double *TRLSDCD = malloc(sizeof (double) * num_simulations );
     double *TRLSDCD4 = malloc(sizeof (double) * num_simulations );
@@ -136,6 +133,7 @@ void test_DCBF(const gsl_rng *r)
 
     double *e = malloc(sizeof(double) * num_time_steps);
     printf( " Matrix size = %d \n", MATRIX_SIZE);
+
     // loop over number of simulations to average for a given value of MATRIX_SIZE
 
     for (long i = 0; i < num_simulations; ++i)
@@ -153,7 +151,6 @@ void test_DCBF(const gsl_rng *r)
         RLS(w, e, longer_x, s, M, lambda, delta, num_time_steps);
         end = clock();
         TRLS[i] = ((double) (end - start)) / CLOCKS_PER_SEC;
-        //printf(  "\n i: %ld, TRLS %lf ", i, TRLS[i]  );
 
        // RLSDCD time test
         num_dcd_iterations = 1;
@@ -161,7 +158,6 @@ void test_DCBF(const gsl_rng *r)
         RLSDCD(w, e, longer_x, s, lambda, delta, num_dcd_iterations, num_time_steps);
         end = clock();
         TRLSDCD[i] = ((double) (end - start)) / CLOCKS_PER_SEC;
-        //printf(  "\n i: %ld, TRLSDCD %lf ", i, TRLSDCD[i]  );
 
 
         // RLSDCD 4 time test
@@ -170,7 +166,6 @@ void test_DCBF(const gsl_rng *r)
         RLSDCD(w, e, longer_x, s, lambda, delta, num_dcd_iterations, num_time_steps);
         end = clock();
         TRLSDCD4[i] = ((double) (end - start)) / CLOCKS_PER_SEC;
-        //printf(  "\n i: %ld, TRLSDCD4 %lf ", i, TRLSDCD4[i]  );
 
 
         // fast RLSDCD time test
@@ -179,7 +174,6 @@ void test_DCBF(const gsl_rng *r)
         fRLSDCD(w, e, longer_x, s, lambda, delta, num_dcd_iterations, num_time_steps);
         end = clock();
         TfRLSDCD[i] = ((double) (end - start)) / CLOCKS_PER_SEC;
-        //printf(  "\n i: %ld, TfRLSDCD4 %lf ", i, TfRLSDCD4[i]  );
 
         // fast RLSDCD4 time test
         num_dcd_iterations = 4;
@@ -187,7 +181,6 @@ void test_DCBF(const gsl_rng *r)
         fRLSDCD(w, e, longer_x, s, lambda, delta, num_dcd_iterations, num_time_steps);
         end = clock();
         TfRLSDCD4[i] = ((double) (end - start)) / CLOCKS_PER_SEC;
-        //printf(  "\n i: %ld, TfRLSDCD4 %lf ", i, TfRLSDCD4[i]  );
     } // end for num_simulations
 
     double MeRLS = mean_of_vector(TRLS, num_simulations);
@@ -268,10 +261,7 @@ void test_fRLSDCD(long num_time_steps, const gsl_rng *r)
         s[i] += gaussian_rand(r, sigma_v);
     }
     fRLSDCD(w, e, longer_x, s, lambda, delta, num_dcd_iterations, num_time_steps);
-/*    for (long i=0; i<MATRIX_SIZE; i++)
-    {
-        printf("hi[%ld] = %lf, w[%ld] = %lf \n", i, hi[i], i, w[i]);
-    }*/
+
     double MSD = pow(Euclidean_distance(w, hi, MATRIX_SIZE), 2);
     printf("\n fRLSDCD MSD = %lg ", MSD);
 
@@ -314,10 +304,7 @@ void test_RLSDCD(long num_time_steps, const gsl_rng *r)
         s[i] += gaussian_rand(r, sigma_v);
     }
     RLSDCD(w, e, longer_x, s, lambda, delta, num_dcd_iterations, num_time_steps);
-/*    for (long i=0; i<MATRIX_SIZE; i++)
-    {
-        printf("hi[%ld] = %lf, w[%ld] = %lf \n", i, hi[i], i, w[i]);
-    }*/
+
     double MSD = pow(Euclidean_distance(w, hi, MATRIX_SIZE), 2);
     printf("\n RLSDCD MSD = %lg ", MSD);
 
@@ -360,10 +347,7 @@ void test_RLS(long num_time_steps, const gsl_rng *r)
     }
     RLS(w, e, longer_x, s, MATRIX_SIZE, lambda, delta, num_time_steps);
 
-/*    for (long i=0; i<MATRIX_SIZE; i++)
-    {
-        printf("hi[%ld] = %lf, w[%ld] = %lf \n", i, hi[i], i, w[i]);
-    }*/
+
     double MSD = pow(Euclidean_distance(w, hi, MATRIX_SIZE), 2);
     printf("\n RLS MSD = %lg ", MSD);
 
